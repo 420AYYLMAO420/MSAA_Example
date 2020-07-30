@@ -40,12 +40,12 @@ Graphics::Graphics() {
 
 	//set OpenGL program for use
 	GL_USER_ERROR(glLinkProgram(idProgram));
-	GL_USER_ERROR(glUseProgram(idProgram));
 	glValidateProgram(idProgram);
 	GLint isValid;
 	glGetProgramiv(idProgram, GL_VALIDATE_STATUS, &isValid);
 	PRINT_IF_ELSE(isValid, "Validated OpenGL program", "OpenGL program is not valid");
-
+	GL_USER_ERROR(glUseProgram(idProgram));
+	
 	//check if Position2D is a valid variable inside the vertex shader file
 	GLint VertexPosAttrib = -1;
 	VertexPosAttrib = glGetAttribLocation(idProgram, "Position2D");
@@ -62,7 +62,7 @@ Graphics::Graphics() {
 
 	//create index buffer
 	GL_USER_ERROR(glGenBuffers(1, &idIBuffer));
-	PRINT_IF_ELSE(idVBuffer > 0, "Created index buffer", "Failed to create index buffer");
+	PRINT_IF_ELSE(idIBuffer > 0, "Created index buffer", "Failed to create index buffer");
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idIBuffer);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices), Indices, GL_STATIC_DRAW);
 
